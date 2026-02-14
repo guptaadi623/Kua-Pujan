@@ -23,14 +23,13 @@
             overflow-x: hidden;
         }
 
-        /* Hero Section with Themed Illustration */
+        /* Hero Section */
         .hero {
             height: 70vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            /* Using a high-quality traditional pattern/mandala background */
             background: linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)), 
                         url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover;
             padding: 20px;
@@ -47,6 +46,24 @@
             font-family: 'Cinzel', serif;
             margin-top: 10px;
             text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 40px 20px;
+            background-color: #fff;
+        }
+        .video-container {
+            max-width: 350px; /* Standard Reel/Mobile format size */
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 4px solid var(--gold);
+        }
+        video {
+            width: 100%;
+            display: block;
         }
 
         /* Countdown Style */
@@ -72,19 +89,16 @@
         /* Card Styling */
         .card {
             background: white;
-            margin: -30px auto 40px;
+            margin: 40px auto;
             padding: 50px 30px;
             max-width: 450px;
             width: 90%;
             border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
             border-top: 5px solid var(--gold);
-            position: relative;
-            z-index: 10;
         }
 
         .event-details p { margin: 15px 0; font-size: 1.1rem; }
-        .icon { color: var(--gold); margin-right: 8px; }
 
         .btn {
             display: inline-block;
@@ -98,14 +112,10 @@
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(26, 60, 52, 0.3);
         }
-        .btn:hover { background: var(--gold); transform: translateY(-2px); box-shadow: 0 6px 15px rgba(197, 160, 89, 0.4); }
+        .btn:hover { background: var(--gold); transform: translateY(-2px); }
 
-        /* RSVP Section */
         .rsvp-section { background: #f2eee6; padding: 60px 20px; border-top: 1px solid #e0d9cc; }
-        .rsvp-section h2 { font-family: 'Cinzel', serif; color: var(--wood); margin-bottom: 30px; }
-        
         input { 
             width: 85%; 
             max-width: 350px; 
@@ -113,17 +123,13 @@
             margin: 10px 0; 
             border: 1px solid #d1c7b7; 
             border-radius: 8px; 
-            font-family: 'Poppins', sans-serif;
-            font-size: 1rem;
         }
 
         footer { padding: 50px 20px; font-size: 0.9rem; background: var(--cream); color: #666; }
-        footer strong { color: var(--dark-green); font-size: 1.1rem; }
 
         @media (max-width: 480px) {
             h1 { font-size: 2rem; }
             .timer-number { font-size: 1.8rem; }
-            .timer-box { min-width: 60px; }
         }
     </style>
 </head>
@@ -134,6 +140,16 @@
         <h1>Kua Pujan</h1>
         <p>of our beloved son</p>
         <div class="highlight">ADVAIT GUPTA</div>
+    </section>
+
+    <section class="video-section">
+        <h2 style="font-family: 'Cinzel'; color: var(--wood); margin-bottom: 20px;">Watch the Invitation</h2>
+        <div class="video-container">
+            <video controls poster="poster_image.jpg">
+                <source src="kua_pujan.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </section>
 
     <div class="timer-container" id="timerDisplay">
@@ -179,49 +195,38 @@
     <footer>
         <p>Seeking your love and blessings,</p>
         <p><strong>Somya & Prabhat Gupta</strong></p>
-        <p style="margin-top: 20px; font-style: italic; font-size: 0.8rem;">#AdvaitKuaPujan2026</p>
     </footer>
 
 <script>
-    // --- COUNTDOWN TIMER LOGIC ---
+    // Countdown and WhatsApp logic remains the same
     const eventDate = new Date("Feb 23, 2026 19:00:00").getTime();
-
     const timer = setInterval(function() {
         const now = new Date().getTime();
         const distance = eventDate - now;
-
         if (distance < 0) {
             clearInterval(timer);
             document.getElementById("timerDisplay").innerHTML = "<h3 style='color: var(--gold); font-family: Cinzel;'>The Celebration Has Begun!</h3>";
             return;
         }
-
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
         document.getElementById("days").innerHTML = String(days).padStart(2, '0');
         document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
         document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
         document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
     }, 1000);
 
-    // --- WHATSAPP RSVP LOGIC ---
     document.getElementById('rsvpForm').onsubmit = function(e) {
         e.preventDefault();
-
         const name = document.getElementById('guestName').value;
         const count = document.getElementById('guestCount').value;
         const myNumber = "918839974860"; 
-
         const message = `Namaste! I am ${name}. We are happy to confirm our attendance for Advait's Kua Pujan. Total guests: ${count}. See you soon!`;
         const encodedMessage = encodeURIComponent(message);
         const whatsappUrl = `https://wa.me/${myNumber}?text=${encodedMessage}`;
-        
         window.open(whatsappUrl, '_blank');
-        
-        // Optional: Reset form or show success
         alert("Redirecting to WhatsApp to send your blessings...");
     }
 </script>
