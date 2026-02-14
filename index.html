@@ -14,221 +14,48 @@
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: var(--cream);
             color: var(--dark-green);
             text-align: center;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
+
+        /* 3. Parallax/Fade-In Animation */
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Hero Section */
         .hero {
-            height: 70vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: linear-gradient(rgba(255,255,255,0.75), rgba(255,255,255,0.75)), 
-                        url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover;
+            height: 80vh;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
+                        url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover fixed;
             padding: 20px;
             border-bottom: 5px solid var(--gold);
         }
 
-        h1 { font-family: 'Cinzel', serif; font-size: 2.5rem; color: var(--wood); margin: 10px 0; letter-spacing: 2px; }
-        .sub-gold { color: var(--gold); font-weight: 600; letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; }
-        
-        .highlight { 
-            color: var(--dark-green); 
-            font-weight: 700; 
-            font-size: 2rem; 
-            font-family: 'Cinzel', serif;
-            margin-top: 10px;
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.1);
-        }
+        h1 { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--wood); margin: 10px 0; }
+        .sub-gold { color: var(--gold); font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
 
         /* Video Section */
-        .video-section {
-            padding: 40px 20px;
-            background-color: #fff;
-        }
+        .video-section { padding: 40px 20px; background: white; }
         .video-container {
-            max-width: 350px; /* Standard Reel/Mobile format size */
-            margin: 0 auto;
-            border-radius: 15px;
-            overflow: hidden;
+            max-width: 350px; margin: 0 auto;
+            border-radius: 15px; overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             border: 4px solid var(--gold);
         }
-        video {
-            width: 100%;
-            display: block;
-        }
+        video { width: 100%; display: block; }
 
-        /* Countdown Style */
+        /* Timer */
         .timer-container {
-            background: var(--dark-green);
-            color: white;
-            padding: 40px 10px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            background: var(--dark-green); color: white;
+            padding: 40px 10px; display: flex; justify-content: center; gap: 20px;
         }
-        .timer-box { min-width: 80px; }
-        .timer-number {
-            display: block;
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--gold);
-            font-family: 'Cinzel', serif;
-        }
-        .timer-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; opacity: 0.8; }
+        .timer-number { display: block; font-size: 2.2rem; color: var(--gold); font-family: 'Cinzel', serif; }
 
-        /* Card Styling */
-        .card {
-            background: white;
-            margin: 40px auto;
-            padding: 50px 30px;
-            max-width: 450px;
-            width: 90%;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            border-top: 5px solid var(--gold);
-        }
-
-        .event-details p { margin: 15px 0; font-size: 1.1rem; }
-
-        .btn {
-            display: inline-block;
-            background: var(--dark-green);
-            color: white;
-            padding: 16px 35px;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            margin: 20px 0;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-        }
-        .btn:hover { background: var(--gold); transform: translateY(-2px); }
-
-        .rsvp-section { background: #f2eee6; padding: 60px 20px; border-top: 1px solid #e0d9cc; }
-        input { 
-            width: 85%; 
-            max-width: 350px; 
-            padding: 15px; 
-            margin: 10px 0; 
-            border: 1px solid #d1c7b7; 
-            border-radius: 8px; 
-        }
-
-        footer { padding: 50px 20px; font-size: 0.9rem; background: var(--cream); color: #666; }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 2rem; }
-            .timer-number { font-size: 1.8rem; }
-        }
-    </style>
-</head>
-<body>
-
-    <section class="hero">
-        <p class="sub-gold">Sowing the Seeds of Tradition</p>
-        <h1>Kua Pujan</h1>
-        <p>of our beloved son</p>
-        <div class="highlight">ADVAIT GUPTA</div>
-    </section>
-
-    <section class="video-section">
-        <h2 style="font-family: 'Cinzel'; color: var(--wood); margin-bottom: 20px;">Watch the Invitation</h2>
-        <div class="video-container">
-            <video controls poster="poster_image.jpg">
-                <source src="kua_pujan.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
-    </section>
-
-    <div class="timer-container" id="timerDisplay">
-        <div class="timer-box">
-            <span class="timer-number" id="days">00</span>
-            <span class="timer-label">Days</span>
-        </div>
-        <div class="timer-box">
-            <span class="timer-number" id="hours">00</span>
-            <span class="timer-label">Hours</span>
-        </div>
-        <div class="timer-box">
-            <span class="timer-number" id="minutes">00</span>
-            <span class="timer-label">Mins</span>
-        </div>
-        <div class="timer-box">
-            <span class="timer-number" id="seconds">00</span>
-            <span class="timer-label">Secs</span>
-        </div>
-    </div>
-
-    <section class="card">
-        <h2 style="font-family: 'Cinzel'; font-size: 1.8rem; color: var(--wood); margin-top: 0;">The Celebration</h2>
-        <div class="event-details">
-            <p><strong>📅 Monday, Feb 23, 2026</strong></p>
-            <p><strong>⏰ 7:00 PM Onwards</strong></p>
-            <p><strong>📍 Nij Niwas, Chhatarpur</strong></p>
-        </div>
-        <a href="https://maps.app.goo.gl/HUWjooE5aYfgDMF56" target="_blank" class="btn">View on Google Maps</a>
-    </section>
-
-    <section class="rsvp-section">
-        <h2>Kindly RSVP</h2>
-        <form id="rsvpForm">
-            <input type="text" id="guestName" placeholder="Your Full Name" required>
-            <br>
-            <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required>
-            <br>
-            <button type="submit" class="btn">Confirm Attendance</button>
-        </form>
-    </section>
-
-    <footer>
-        <p>Seeking your love and blessings,</p>
-        <p><strong>Somya & Prabhat Gupta</strong></p>
-    </footer>
-
-<script>
-    // Countdown and WhatsApp logic remains the same
-    const eventDate = new Date("Feb 23, 2026 19:00:00").getTime();
-    const timer = setInterval(function() {
-        const now = new Date().getTime();
-        const distance = eventDate - now;
-        if (distance < 0) {
-            clearInterval(timer);
-            document.getElementById("timerDisplay").innerHTML = "<h3 style='color: var(--gold); font-family: Cinzel;'>The Celebration Has Begun!</h3>";
-            return;
-        }
-        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        document.getElementById("days").innerHTML = String(days).padStart(2, '0');
-        document.getElementById("hours").innerHTML = String(hours).padStart(2, '0');
-        document.getElementById("minutes").innerHTML = String(minutes).padStart(2, '0');
-        document.getElementById("seconds").innerHTML = String(seconds).padStart(2, '0');
-    }, 1000);
-
-    document.getElementById('rsvpForm').onsubmit = function(e) {
-        e.preventDefault();
-        const name = document.getElementById('guestName').value;
-        const count = document.getElementById('guestCount').value;
-        const myNumber = "918839974860"; 
-        const message = `Namaste! I am ${name}. We are happy to confirm our attendance for Advait's Kua Pujan. Total guests: ${count}. See you soon!`;
-        const encodedMessage = encodeURIComponent(message);
-        const whatsappUrl = `https://wa.me/${myNumber}?text=${encodedMessage}`;
-        window.open(whatsappUrl, '_blank');
-        alert("Redirecting to WhatsApp to send your blessings...");
-    }
-</script>
-</body>
-</html>
+        /* 4. Elegant Gallery */
+        .gallery {
