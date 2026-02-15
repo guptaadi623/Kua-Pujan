@@ -13,7 +13,7 @@
             --wood: #8b4513;
         }
 
-        body {
+        body, html {
             margin: 0; padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: var(--cream);
@@ -23,17 +23,45 @@
             scroll-behavior: smooth;
         }
 
-        /* 3. Parallax/Fade-In Animation */
+        /* 1. VIRTUAL DOOR ANIMATION */
+        #door-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 9999; display: flex; cursor: pointer;
+        }
+        .door {
+            width: 50%; height: 100%;
+            background: var(--wood) url('still1.jpg') center/cover;
+            transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid var(--gold);
+        }
+        .door-left { border-right: none; }
+        .door-right { border-left: none; }
+        #door-wrapper.open .door-left { transform: translateX(-100%); }
+        #door-wrapper.open .door-right { transform: translateX(100%); }
+        #door-wrapper.open { pointer-events: none; }
+        .enter-text {
+            position: absolute; color: white; font-family: 'Cinzel';
+            background: rgba(0,0,0,0.6); padding: 15px 30px; 
+            border: 1px solid var(--gold); letter-spacing: 2px;
+        }
+
+        /* 4. FALLING PETALS */
+        .petal {
+            position: fixed; top: -10px; z-index: 998;
+            pointer-events: none; animation: fall linear forwards;
+        }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* General Reveal Animation */
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Hero Section */
         .hero {
-            height: 80vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
                         url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover fixed;
-            padding: 20px;
             border-bottom: 5px solid var(--gold);
         }
 
@@ -57,17 +85,19 @@
         }
         .timer-number { display: block; font-size: 2.2rem; color: var(--gold); font-family: 'Cinzel', serif; }
 
-        /* 4. Elegant Gallery */
+        /* Gallery */
         .gallery { padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; max-width: 800px; margin: 0 auto; }
         .gallery img { width: 100%; border-radius: 8px; border: 2px solid var(--gold); transition: 0.3s; cursor: pointer; }
         .gallery img:hover { transform: scale(1.05); }
 
-        /* Cards and Buttons */
+        /* Cards & Components */
         .card {
             background: white; margin: 40px auto; padding: 40px 20px;
             max-width: 450px; width: 90%; border-radius: 15px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid var(--gold);
         }
+
+        .iframe-container { width: 100%; height: 250px; border-radius: 10px; overflow: hidden; margin: 15px 0; border: 1px solid var(--gold); }
 
         .btn {
             display: inline-block; background: var(--dark-green); color: white;
@@ -76,22 +106,26 @@
         }
         .btn:hover { background: var(--gold); transform: scale(1.05); }
 
-        /* 1. Music Toggle */
+        /* UI Elements */
         #musicToggle {
-            position: fixed; bottom: 80px; right: 20px;
+            position: fixed; bottom: 80px; left: 20px;
             background: var(--gold); color: white; border: none;
             border-radius: 50%; width: 50px; height: 50px;
-            cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-            font-size: 20px;
+            cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 20px;
         }
-
-        /* 5. Floating Quick RSVP */
         .float-rsvp {
             position: fixed; bottom: 20px; right: 20px;
             background: var(--dark-green); color: white;
             padding: 12px 25px; border-radius: 50px;
             text-decoration: none; font-weight: 600; z-index: 1000;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        /* 5. THANK YOU POPUP */
+        #thankYouPopup {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: white; padding: 30px; border-radius: 15px; z-index: 10000;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 3px solid var(--gold); width: 80%; max-width: 300px;
         }
 
         .rsvp-section { background: #f2eee6; padding: 60px 20px; }
@@ -102,12 +136,24 @@
 </head>
 <body>
 
+    <div id="door-wrapper" onclick="this.classList.add('open')">
+        <div class="door door-left"></div>
+        <div class="door door-right"></div>
+        <div class="enter-text">TAP TO ENTER</div>
+    </div>
+
     <audio id="bgMusic" loop>
         <source src="background_music.mp3" type="audio/mpeg">
     </audio>
     <button id="musicToggle" onclick="toggleMusic()">🎵</button>
 
     <a href="#rsvpForm" class="float-rsvp">RSVP Now</a>
+
+    <div id="thankYouPopup">
+        <h2 style="font-family: 'Cinzel'; color: var(--wood);">Dhanyawad!</h2>
+        <p>Redirecting to WhatsApp to send your blessings...</p>
+        <button class="btn" onclick="closePopup()">Close</button>
+    </div>
 
     <section class="hero">
         <p class="sub-gold">Sowing the Seeds of Tradition</p>
@@ -143,17 +189,19 @@
     </section>
 
     <section class="card reveal">
-        <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Celebration</h2>
-        <p>📅 <strong>Monday, Feb 23, 2026</strong></p>
-        <p>⏰ <strong>7:00 PM Onwards</strong></p>
-        <p>📍 <strong>Nij Niwas, Chhatarpur</strong></p>
-        <a href="https://maps.app.goo.gl/HUWjooE5aYfgDMF56" target="_blank" class="btn">View on Google Maps</a>
-        
-        <br>
-        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Nij+Niwas,+Chhatarpur" 
-           target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">
-           + Add to Google Calendar
-        </a>
+        <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Venue</h2>
+        <div class="iframe-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.123456789!2d79.5812345!3d24.9123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDU0JzQ0LjQiTiA3OcKwMzQnNTIuNCJF!5e0!3m2!1sen!2sin!4v1621360841013!5m2!1sen!2sin" 
+            width="100%" height="100%" style="border:0; filter: sepia(20%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+        <p>📍 Nij Niwas, Chhatarpur</p>
+        <a href="https://maps.google.com" target="_blank" class="btn">Navigate on Maps</a>
+    </section>
+
+    <section class="card reveal" style="background: var(--dark-green); color: white;">
+        <h2 style="font-family: 'Cinzel'; color: var(--gold);">Blessings Wall</h2>
+        <p>Can't make it? Drop a digital blessing for our little one!</p>
+        <a href="https://forms.google.com" target="_blank" class="btn" style="background:var(--gold); color:var(--dark-green);">Leave a Blessing</a>
     </section>
 
     <section class="rsvp-section reveal" id="rsvpForm">
@@ -163,6 +211,11 @@
             <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required><br>
             <button type="submit" class="btn">Confirm Attendance</button>
         </form>
+        <br>
+        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Nij+Niwas,+Chhatarpur" 
+           target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">
+           + Add to Google Calendar
+        </a>
     </section>
 
     <footer>
@@ -171,7 +224,7 @@
     </footer>
 
 <script>
-    // 1. Music Toggle Logic
+    // 1. Music Logic
     function toggleMusic() {
         var music = document.getElementById("bgMusic");
         var btn = document.getElementById("musicToggle");
@@ -179,7 +232,20 @@
         else { music.pause(); btn.innerHTML = "🎵"; }
     }
 
-    // 3. Reveal on Scroll Logic
+    // 4. Falling Petals Logic
+    function createPetal() {
+        const petal = document.createElement('div');
+        petal.innerHTML = '🌸'; 
+        petal.className = 'petal';
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDuration = Math.random() * 3 + 3 + 's';
+        petal.style.opacity = Math.random();
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 6000);
+    }
+    setInterval(createPetal, 450);
+
+    // Scroll Reveal Logic
     window.addEventListener('scroll', () => {
         var reveals = document.querySelectorAll('.reveal');
         for (var i = 0; i < reveals.length; i++) {
@@ -189,7 +255,7 @@
         }
     });
 
-    // Countdown Timer
+    // Countdown Logic
     const eventDate = new Date("Feb 23, 2026 19:00:00").getTime();
     setInterval(function() {
         const now = new Date().getTime();
@@ -200,14 +266,21 @@
         document.getElementById("seconds").innerHTML = Math.floor((distance % 60000) / 1000);
     }, 1000);
 
-    // WhatsApp RSVP
+    // 5. WhatsApp RSVP & Thank You Logic
     document.getElementById('inviteForm').onsubmit = function(e) {
         e.preventDefault();
+        document.getElementById('thankYouPopup').style.display = 'block';
+        
         const name = document.getElementById('guestName').value;
         const count = document.getElementById('guestCount').value;
         const message = encodeURIComponent(`Namaste! I am ${name}. Confirming for Advait's Kua Pujan. Guests: ${count}.`);
-        window.open(`https://wa.me/918839974860?text=${message}`, '_blank');
+        
+        setTimeout(() => {
+            window.open(`https://wa.me/918839974860?text=${message}`, '_blank');
+        }, 1500);
     }
+
+    function closePopup() { document.getElementById('thankYouPopup').style.display = 'none'; }
 </script>
 </body>
 </html>
