@@ -21,10 +21,10 @@
             text-align: center;
             overflow-x: hidden;
             scroll-behavior: smooth;
-            cursor: none; /* Feature 3: Custom Cursor hide default */
+            cursor: none; 
         }
 
-        /* --- FEATURE 4: PAPER TEXTURE OVERLAY --- */
+        /* --- PAPER TEXTURE OVERLAY --- */
         body::before {
             content: "";
             position: fixed;
@@ -35,10 +35,9 @@
             z-index: 10002;
         }
 
-        /* --- FEATURE 3: CUSTOM CURSOR (PEACOCK FEATHER DOT) --- */
+        /* --- CUSTOM CURSOR --- */
         #custom-cursor {
-            width: 20px;
-            height: 20px;
+            width: 20px; height: 20px;
             background: var(--gold);
             border: 2px solid var(--dark-green);
             border-radius: 50%;
@@ -49,29 +48,13 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- FEATURE 1: SCROLL PROGRESS MANDALA --- */
+        /* --- SCROLL PROGRESS MANDALA --- */
         #scroll-mandala {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 70px;
-            height: 70px;
-            z-index: 1000;
-            pointer-events: none;
+            position: fixed; bottom: 20px; left: 20px;
+            width: 70px; height: 70px;
+            z-index: 1000; pointer-events: none;
             filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.2));
         }
-
-        /* --- FEATURE 2: FLOATING ELEMENTS --- */
-        .float-decoration {
-            position: absolute;
-            z-index: 5;
-            opacity: 0;
-            transition: all 1.5s ease;
-            pointer-events: none;
-        }
-        .float-left { transform: translateX(-100px); left: 5%; }
-        .float-right { transform: translateX(100px); right: 5%; }
-        .float-decoration.active { opacity: 0.6; transform: translateX(0); }
 
         /* --- LOADING SCREEN --- */
         #loader-wrapper {
@@ -85,20 +68,33 @@
         .loader-text { margin-top: 20px; font-family: 'Cinzel', serif; color: var(--wood); letter-spacing: 3px; font-size: 0.8rem; }
         .loader-hidden { opacity: 0; visibility: hidden; }
 
-        /* --- VIRTUAL DOOR ANIMATION --- */
+        /* --- REALISTIC VIRTUAL DOORS --- */
         #door-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 9999; display: flex; cursor: pointer;
         }
         .door {
             width: 50%; height: 100%;
-            background: var(--wood) url('still1.jpg') center/cover;
+            background-image: url('still1.jpg'); 
+            background-size: 200% 100%; 
+            background-repeat: no-repeat;
             transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex; align-items: center; justify-content: center;
             border: 2px solid var(--gold);
+            position: relative;
         }
-        .door-left { border-right: none; }
-        .door-right { border-left: none; }
+        .door-left { 
+            background-position: left center; 
+            border-right: 1px solid rgba(0,0,0,0.3);
+            /* Internal shadow at the seam */
+            box-shadow: inset -15px 0 20px -10px rgba(0,0,0,0.6);
+        }
+        .door-right { 
+            background-position: right center; 
+            border-left: 1px solid rgba(255,255,255,0.1);
+            /* Internal shadow at the seam */
+            box-shadow: inset 15px 0 20px -10px rgba(0,0,0,0.6);
+        }
         #door-wrapper.open .door-left { transform: translateX(-100%); }
         #door-wrapper.open .door-right { transform: translateX(100%); }
         .enter-text {
@@ -106,6 +102,7 @@
             background: rgba(0,0,0,0.6); padding: 15px 30px; 
             border: 1px solid var(--gold); letter-spacing: 2px;
             transition: opacity 0.5s ease;
+            z-index: 100;
         }
         .text-hidden { opacity: 0; pointer-events: none; }
 
@@ -118,24 +115,28 @@
         }
         .divider-icon { font-size: 28px; margin: 0 15px; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2)); }
 
-        /* --- UI ELEMENTS --- */
+        /* --- FLOATING ELEMENTS --- */
+        .float-decoration { position: absolute; z-index: 5; opacity: 0; transition: all 1.5s ease; pointer-events: none; }
+        .float-left { transform: translateX(-100px); left: 5%; }
+        .float-right { transform: translateX(100px); right: 5%; }
+        .float-decoration.active { opacity: 0.6; transform: translateX(0); }
+
         .petal { position: fixed; top: -10px; z-index: 998; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- HERO & CARDS --- */
+        /* --- SECTIONS --- */
         .hero {
-            min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
                         url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover fixed;
             padding: 60px 20px; border-bottom: 5px solid var(--gold);
-            position: relative;
         }
         h1 { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--wood); margin: 10px 0; }
         .sub-gold { color: var(--gold); font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
 
-        .video-section { padding: 40px 20px; background: white; position: relative; }
+        .video-section { padding: 40px 20px; background: white; }
         .video-container { max-width: 350px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 4px solid var(--gold); }
         video { width: 100%; display: block; }
 
@@ -143,28 +144,27 @@
         .timer-number { display: block; font-size: 2.2rem; color: var(--gold); font-family: 'Cinzel', serif; }
 
         .gallery { padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; max-width: 800px; margin: 0 auto; }
-        .gallery img { width: 100%; border-radius: 8px; border: 2px solid var(--gold); transition: 0.3s; cursor: none; }
+        .gallery img { width: 100%; border-radius: 8px; border: 2px solid var(--gold); transition: 0.3s; }
         .gallery img:hover { transform: scale(1.05); }
 
         .card { background: white; margin: 40px auto; padding: 40px 20px; max-width: 450px; width: 90%; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid var(--gold); }
         .iframe-container { width: 100%; height: 250px; border-radius: 10px; overflow: hidden; margin: 15px 0; border: 1px solid var(--gold); }
 
-        .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; margin: 10px 0; transition: 0.3s; border: none; cursor: none; }
+        .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; margin: 10px 0; transition: 0.3s; border: none; }
         .btn:hover { background: var(--gold); transform: scale(1.05); }
 
-        #musicToggle { position: fixed; bottom: 80px; left: 20px; background: var(--gold); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 20px; }
-        .float-rsvp { position: fixed; bottom: 20px; right: 20px; background: var(--dark-green); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.4); cursor: none; }
+        #musicToggle { position: fixed; bottom: 80px; left: 20px; background: var(--gold); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 20px; }
+        .float-rsvp { position: fixed; bottom: 20px; right: 20px; background: var(--dark-green); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 
         #thankYouPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; z-index: 10000; box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 3px solid var(--gold); width: 80%; max-width: 300px; }
         .rsvp-section { background: #f2eee6; padding: 60px 20px; }
-        input { width: 85%; max-width: 350px; padding: 15px; margin: 10px 0; border: 1px solid #d1c7b7; border-radius: 8px; cursor: none; }
+        input { width: 85%; max-width: 350px; padding: 15px; margin: 10px 0; border: 1px solid #d1c7b7; border-radius: 8px; }
         footer { padding: 50px 20px; background: var(--cream); }
     </style>
 </head>
 <body>
 
     <div id="custom-cursor"></div>
-
     <img src="https://cdn-icons-png.flaticon.com/512/1041/1041926.png" id="scroll-mandala" alt="scroll progress">
 
     <div id="loader-wrapper">
@@ -191,10 +191,10 @@
     <section class="hero">
         <div class="float-decoration float-left active" style="top: 10%; font-size: 40px;">🦚</div>
         <div class="float-decoration float-right active" style="top: 30%; font-size: 30px;">🌸</div>
-        
+
         <div class="reveal active" style="max-width: 650px;">
             <p class="sub-gold" style="margin-bottom: 20px;">A New Chapter Begins</p>
-            <p style="font-style: italic; line-height: 1.8; font-size: 1.1rem; color: var(--dark-green); margin-bottom: 10px; padding: 0 15px;">
+            <p style="font-style: italic; line-height: 1.8; font-size: 1.1rem; color: var(--dark-green); margin-bottom: 10px; padding: 0 20px;">
                 "With the grace of the Almighty and the love of our elders, our home has been blessed with the pitter-patter of tiny feet. 
                 As we perform the sacred Kua Pujan of our son, Advait, your presence would be the greatest blessing of all."
             </p>
@@ -206,7 +206,6 @@
     </section>
 
     <section class="video-section reveal">
-        <div class="float-decoration float-right active" style="top: 0; font-size: 50px; opacity: 0.3;">🌿</div>
         <h2 style="font-family: 'Cinzel';">Watch the Invitation</h2>
         <div class="video-container">
             <video controls poster="poster_image.jpg">
@@ -235,8 +234,7 @@
     <section class="card reveal">
         <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Venue</h2>
         <div class="iframe-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14457.733618166545!2d79.5786131!3d24.914285!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3982996d9969696d%3A0x1d1d1d1d1d1d1d1d!2sChhatarpur%2C%20Madhya%20Pradesh!5e0!3m2!1sen!2sin!4v1620000000000!5m2!1sen!2sin" 
-            width="100%" height="100%" style="border:0; filter: sepia(20%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="http://googleusercontent.com/maps.google.com/7" width="100%" height="100%" style="border:0; filter: sepia(20%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <p>📍 Nij Niwas, Chhatarpur</p>
         <a href="https://maps.google.com" target="_blank" class="btn">Navigate on Maps</a>
@@ -250,10 +248,7 @@
             <button type="submit" class="btn">Confirm Attendance</button>
         </form>
         <br>
-        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Nij+Niwas,+Chhatarpur" 
-           target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">
-           + Add to Google Calendar
-        </a>
+        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Nij+Niwas,+Chhatarpur" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">+ Add to Google Calendar</a>
     </section>
 
     <footer>
@@ -262,32 +257,17 @@
     </footer>
 
 <script>
-    // FEATURE 3: CUSTOM CURSOR SCRIPT
+    window.addEventListener("load", function() {
+        const loader = document.getElementById("loader-wrapper");
+        setTimeout(() => { loader.classList.add("loader-hidden"); }, 1500); 
+    });
+
     const cursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', e => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
     });
 
-    // FEATURE 1: SCROLL MANDALA LOGIC
-    window.addEventListener('scroll', () => {
-        const theta = window.pageYOffset / 5;
-        document.getElementById('scroll-mandala').style.transform = `rotate(${theta}deg)`;
-        
-        // FEATURE 2: FLOAT TRIGGER
-        const floats = document.querySelectorAll('.float-decoration');
-        floats.forEach(f => {
-            if(window.pageYOffset > 200) f.classList.add('active');
-        });
-    });
-
-    // 1. Loading Screen Logic
-    window.addEventListener("load", function() {
-        const loader = document.getElementById("loader-wrapper");
-        setTimeout(() => { loader.classList.add("loader-hidden"); }, 1500); 
-    });
-
-    // 2. Virtual Door Logic
     function openDoors(wrapper) {
         const text = document.getElementById('door-text');
         if(text) text.classList.add('text-hidden');
@@ -295,7 +275,19 @@
         setTimeout(() => { wrapper.style.display = 'none'; }, 1500);
     }
 
-    // 3. Music & Petals Logic
+    window.addEventListener('scroll', () => {
+        const theta = window.pageYOffset / 5;
+        document.getElementById('scroll-mandala').style.transform = `rotate(${theta}deg)`;
+        
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach(r => {
+            if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active');
+        });
+
+        const floats = document.querySelectorAll('.float-decoration');
+        floats.forEach(f => { if(window.pageYOffset > 200) f.classList.add('active'); });
+    });
+
     function toggleMusic() {
         var music = document.getElementById("bgMusic");
         var btn = document.getElementById("musicToggle");
@@ -314,17 +306,6 @@
     }
     setInterval(createPetal, 450);
 
-    // Scroll Reveal Logic
-    window.addEventListener('scroll', () => {
-        var reveals = document.querySelectorAll('.reveal');
-        for (var i = 0; i < reveals.length; i++) {
-            var windowHeight = window.innerHeight;
-            var revealTop = reveals[i].getBoundingClientRect().top;
-            if (revealTop < windowHeight - 100) { reveals[i].classList.add('active'); }
-        }
-    });
-
-    // Countdown Logic
     const eventDate = new Date("Feb 23, 2026 19:00:00").getTime();
     setInterval(function() {
         const now = new Date().getTime();
@@ -335,7 +316,6 @@
         document.getElementById("seconds").innerHTML = Math.floor((distance % 60000) / 1000);
     }, 1000);
 
-    // WhatsApp RSVP Logic
     document.getElementById('inviteForm').onsubmit = function(e) {
         e.preventDefault();
         document.getElementById('thankYouPopup').style.display = 'block';
