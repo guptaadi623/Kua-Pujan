@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kua Pujan Invitation | Advait Gupta</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --gold: #c5a059;
@@ -31,6 +35,7 @@
             overflow-x: hidden;
             scroll-behavior: smooth;
             cursor: none; 
+            -webkit-font-smoothing: antialiased;
         }
 
         /* --- PAPER TEXTURE OVERLAY --- */
@@ -53,8 +58,8 @@
             position: fixed;
             pointer-events: none;
             z-index: 10005;
-            transition: transform 0.1s ease;
-            transform: translate(-50%, -50%);
+            transform: translate3d(-50%, -50%, 0);
+            will-change: transform;
         }
 
         /* --- LIGHTBOX --- */
@@ -66,12 +71,14 @@
             background: rgba(0, 0, 0, 0.9);
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
         #lightbox img {
             max-width: 90%;
             max-height: 80%;
             border: 4px solid var(--gold);
             border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
         }
 
         /* --- SCROLL PROGRESS MANDALA --- */
@@ -80,6 +87,7 @@
             width: 70px; height: 70px;
             z-index: 1000; pointer-events: none;
             filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.2));
+            will-change: transform;
         }
 
         /* --- LOADING SCREEN --- */
@@ -96,14 +104,16 @@
         #door-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; cursor: pointer; }
         .door {
             width: 50%; height: 100%;
-            background-image: url('still1.jpg'); background-size: 200% 100%; background-repeat: no-repeat;
+            background-image: url('still1.jpg'); background-size: cover; background-position: center;
             transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
             border: 2px solid var(--gold);
+            will-change: transform;
         }
-        .door-left { background-position: left center; border-right: 1px solid rgba(0,0,0,0.3); box-shadow: inset -15px 0 20px -10px rgba(0,0,0,0.6); }
-        .door-right { background-position: right center; border-left: 1px solid rgba(255,255,255,0.1); box-shadow: inset 15px 0 20px -10px rgba(0,0,0,0.6); }
-        #door-wrapper.open .door-left { transform: translateX(-100%); }
-        #door-wrapper.open .door-right { transform: translateX(100%); }
+        .door-left { border-right: 1px solid rgba(0,0,0,0.3); box-shadow: inset -15px 0 20px -10px rgba(0,0,0,0.6); }
+        .door-right { border-left: 1px solid rgba(255,255,255,0.1); box-shadow: inset 15px 0 20px -10px rgba(0,0,0,0.6); }
+        #door-wrapper.open .door-left { transform: translate3d(-100%, 0, 0); }
+        #door-wrapper.open .door-right { transform: translate3d(100%, 0, 0); }
+        
         .enter-text {
             position: absolute; color: white; font-family: 'Cinzel';
             background: rgba(0,0,0,0.6); padding: 15px 30px; border: 1px solid var(--gold); letter-spacing: 2px;
@@ -116,42 +126,49 @@
             background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
                         url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover fixed;
             padding: 60px 20px; border-bottom: 5px solid var(--gold);
-            background-attachment: fixed; /* Parallax Effect */
         }
         .float-decoration { position: absolute; z-index: 5; opacity: 0; transition: all 1.5s ease; pointer-events: none; }
-        .float-decoration.active { opacity: 0.6; transform: translateX(0); }
+        .float-decoration.active { opacity: 0.6; transform: translate3d(0,0,0); }
 
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; padding: 20px; }
         .gallery img {
             width: 100%; border-radius: 12px; border: 2px solid var(--gold);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             filter: brightness(0.9);
+            object-fit: cover;
+            aspect-ratio: 1/1;
         }
         .gallery img:hover {
-            transform: translateY(-10px) scale(1.04);
+            transform: scale(1.05);
             filter: brightness(1.1);
-            box-shadow: 0 15px 30px rgba(197, 160, 89, 0.4);
         }
 
-        .iframe-container { width: 100%; height: 320px; border-radius: 15px; overflow: hidden; margin: 20px 0; border: 2px solid var(--gold); }
-        .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 15px rgba(26, 60, 52, 0.2); }
-        .btn:hover { background: var(--gold); transform: scale(1.05); }
+        .iframe-container { width: 100%; max-width: 600px; height: 320px; border-radius: 15px; overflow: hidden; margin: 20px auto; border: 2px solid var(--gold); }
+        .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 15px rgba(26, 60, 52, 0.2); border: none; }
+        .btn:hover { background: var(--gold); transform: translateY(-3px); }
 
-        .petal { position: fixed; top: -10px; z-index: 998; pointer-events: none; animation: fall linear forwards; }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
+        .petal { position: fixed; top: -10px; z-index: 998; pointer-events: none; animation: fall linear forwards; will-change: transform; }
+        @keyframes fall { to { transform: translate3d(0, 110vh, 0) rotate(360deg); } }
+        
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         #musicToggle { position: fixed; bottom: 80px; left: 20px; background: var(--gold); border: none; border-radius: 50%; width: 50px; height: 50px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 20px; }
         .float-rsvp { position: fixed; bottom: 20px; right: 20px; background: var(--dark-green); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .timer-container { font-size: 0.8rem; }
+        }
     </style>
 </head>
 <body>
 
     <div id="custom-cursor"></div>
-    <img src="https://cdn-icons-png.flaticon.com/512/1041/1041926.png" id="scroll-mandala" alt="scroll progress">
+    <img src="https://cdn-icons-png.flaticon.com/512/1041/1041926.png" id="scroll-mandala" alt="scroll progress" loading="eager">
 
     <div id="lightbox" onclick="this.style.display='none'">
-        <img id="lightbox-img" src="">
+        <img id="lightbox-img" src="" alt="Zoomed view">
     </div>
 
     <div id="loader-wrapper">
@@ -165,7 +182,7 @@
         <div id="door-text" class="enter-text">TAP TO ENTER</div>
     </div>
 
-    <audio id="bgMusic" loop><source src="background_music.mp3" type="audio/mpeg"></audio>
+    <audio id="bgMusic" loop preload="auto"><source src="background_music.mp3" type="audio/mpeg"></audio>
     <button id="musicToggle" onclick="toggleMusic()">🎵</button>
     <a href="#rsvpForm" class="float-rsvp">RSVP Now</a>
 
@@ -181,93 +198,132 @@
 
     <section class="video-section reveal">
         <div class="video-container">
-            <video controls poster="poster_image.jpg"><source src="kua_pujan.mp4" type="video/mp4"></video>
+            <video controls poster="poster_image.jpg" preload="none"><source src="kua_pujan.mp4" type="video/mp4"></video>
         </div>
     </section>
 
-    <div class="timer-container">
-        <div><span class="timer-number" id="days">00</span><span>Days</span></div>
-        <div><span class="timer-number" id="hours">00</span><span>Hours</span></div>
-        <div><span class="timer-number" id="minutes">00</span><span>Mins</span></div>
-        <div><span class="timer-number" id="seconds">00</span><span>Secs</span></div>
+    <div class="timer-container" style="display: flex; justify-content: center; gap: 20px; padding: 40px 0; background: var(--dark-green); color: white;">
+        <div><span class="timer-number" id="days" style="display:block; font-size: 2rem; color: var(--gold);">00</span><span>Days</span></div>
+        <div><span class="timer-number" id="hours" style="display:block; font-size: 2rem; color: var(--gold);">00</span><span>Hours</span></div>
+        <div><span class="timer-number" id="minutes" style="display:block; font-size: 2rem; color: var(--gold);">00</span><span>Mins</span></div>
+        <div><span class="timer-number" id="seconds" style="display:block; font-size: 2rem; color: var(--gold);">00</span><span>Secs</span></div>
     </div>
 
     <section class="reveal">
-        <h2 style="font-family: 'Cinzel';">Special Moments</h2>
+        <h2 style="font-family: 'Cinzel'; padding-top: 40px;">Special Moments</h2>
         <div class="gallery">
-            <img src="still1.jpg" onclick="openLightbox(this.src)">
-            <img src="still2.jpg" onclick="openLightbox(this.src)">
-            <img src="still3.jpg" onclick="openLightbox(this.src)">
-            <img src="still4.jpg" onclick="openLightbox(this.src)">
+            <img src="still1.jpg" onclick="openLightbox(this.src)" loading="lazy" alt="Moment 1">
+            <img src="still2.jpg" onclick="openLightbox(this.src)" loading="lazy" alt="Moment 2">
+            <img src="still3.jpg" onclick="openLightbox(this.src)" loading="lazy" alt="Moment 3">
+            <img src="still4.jpg" onclick="openLightbox(this.src)" loading="lazy" alt="Moment 4">
         </div>
     </section>
 
     <section class="card reveal">
         <h2 style="font-family: 'Cinzel';">The Venue</h2>
         <div class="iframe-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.110260421804!2d79.5841445!3d24.9150041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398297ba39c39961%3A0x350ade5aed85e1b0!2sDr.%20Piyush%20Bajaj%20Clinic!5e0!3m2!1sen!2sin!4v1700000000000" 
+            <iframe id="mapFrame" data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3532.854!2d79.581!3d24.915!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDU0JzU0LjAiTiA3OcKwMzQnNTEuNiJF!5e0!3m2!1sen!2sin!4v1600000000000" 
             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <p>📍 <strong>Dr. Piyush Bajaj Clinic</strong><br>Satai Rd, Swami Vivekanand Colony, Chhatarpur, MP</p>
-        <a href="https://maps.app.goo.gl/uXh8VpWh9zM6jQ3Z7" target="_blank" class="btn">Navigate to Venue</a>
+        <a href="https://www.google.com/maps/dir/?api=1&destination=24.915,79.581" target="_blank" class="btn">Navigate to Venue</a>
     </section>
 
-    <section class="rsvp-section reveal" id="rsvpForm">
+    <section class="rsvp-section reveal" id="rsvpForm" style="padding: 60px 20px;">
         <h2>Kindly RSVP</h2>
         <form id="inviteForm">
-            <input type="text" id="guestName" placeholder="Your Full Name" required><br>
-            <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required><br>
-            <button type="submit" class="btn">Confirm Attendance</button>
+            <input type="text" id="guestName" placeholder="Your Full Name" required style="padding: 12px; margin: 10px; width: 80%; max-width: 300px; border-radius: 8px; border: 1px solid #ccc;"><br>
+            <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required style="padding: 12px; margin: 10px; width: 80%; max-width: 300px; border-radius: 8px; border: 1px solid #ccc;"><br>
+            <button type="submit" class="btn" style="cursor: pointer;">Confirm Attendance</button>
         </form>
     </section>
 
 <script>
-    // 1. Loader & Cursor
-    window.addEventListener("load", () => setTimeout(() => document.getElementById("loader-wrapper").classList.add("loader-hidden"), 1500));
-    const cursor = document.getElementById('custom-cursor');
-    document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+    // 1. Optimized Loader & Cursor
+    window.addEventListener("load", () => {
+        const loader = document.getElementById("loader-wrapper");
+        loader.style.opacity = "0";
+        setTimeout(() => loader.style.display = "none", 800);
+    });
 
-    // 2. FEATURE: CLICK FOR PETAL BURST
+    const cursor = document.getElementById('custom-cursor');
+    let mouseX = 0, mouseY = 0;
+    document.addEventListener('mousemove', e => { 
+        mouseX = e.clientX; 
+        mouseY = e.clientY;
+        cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+    });
+
+    // 2. Optimized Petal Burst
     document.addEventListener('click', (e) => {
-        for(let i=0; i<8; i++) {
-            setTimeout(() => {
-                const p = document.createElement('div');
-                p.innerHTML = '🌸'; p.className = 'petal';
-                p.style.left = e.clientX + (Math.random() * 60 - 30) + 'px';
-                p.style.top = e.clientY + 'px';
-                document.body.appendChild(p);
-                setTimeout(() => p.remove(), 2500);
-            }, i * 50);
+        const fragment = document.createDocumentFragment();
+        for(let i=0; i<6; i++) {
+            const p = document.createElement('div');
+            p.innerHTML = '🌸'; 
+            p.className = 'petal';
+            p.style.left = e.clientX + (Math.random() * 40 - 20) + 'px';
+            p.style.top = e.clientY + 'px';
+            p.style.animationDuration = (Math.random() * 1 + 1) + 's';
+            fragment.appendChild(p);
+            setTimeout(() => p.remove(), 2000);
         }
+        document.body.appendChild(fragment);
     });
 
     // 3. Doors & Lightbox
-    function openDoors(w) { document.getElementById('door-text').classList.add('text-hidden'); w.classList.add('open'); setTimeout(() => w.style.display = 'none', 1500); }
-    function openLightbox(s) { document.getElementById('lightbox-img').src = s; document.getElementById('lightbox').style.display = 'flex'; }
+    function openDoors(w) { 
+        document.getElementById('door-text').style.opacity = '0';
+        w.classList.add('open'); 
+        setTimeout(() => w.style.display = 'none', 1550); 
+    }
+    function openLightbox(s) { 
+        const lb = document.getElementById('lightbox');
+        document.getElementById('lightbox-img').src = s; 
+        lb.style.display = 'flex'; 
+    }
 
-    // 4. Scroll Logic
+    // 4. Efficient Scroll Handling (Throttled)
+    let scrollTimeout;
     window.addEventListener('scroll', () => {
-        document.getElementById('scroll-mandala').style.transform = `rotate(${window.pageYOffset / 5}deg)`;
-        document.querySelectorAll('.reveal').forEach(r => { if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active'); });
+        if (!scrollTimeout) {
+            scrollTimeout = setTimeout(() => {
+                const scrolled = window.pageYOffset;
+                document.getElementById('scroll-mandala').style.transform = `rotate(${scrolled / 5}deg)`;
+                
+                document.querySelectorAll('.reveal').forEach(r => { 
+                    if (r.getBoundingClientRect().top < window.innerHeight - 50) r.classList.add('active'); 
+                });
+                scrollTimeout = null;
+            }, 10);
+        }
     });
 
+    // 5. Interaction & Timer
     function toggleMusic() { 
         const m = document.getElementById("bgMusic");
-        m.paused ? (m.play(), document.getElementById("musicToggle").innerHTML = "⏸️") : (m.pause(), document.getElementById("musicToggle").innerHTML = "🎵"); 
+        const btn = document.getElementById("musicToggle");
+        if (m.paused) { m.play(); btn.innerHTML = "⏸️"; }
+        else { m.pause(); btn.innerHTML = "🎵"; }
     }
 
     const eventDate = new Date("Feb 23, 2026 19:00:00").getTime();
-    setInterval(() => {
-        const d = eventDate - new Date().getTime();
-        document.getElementById("days").innerHTML = Math.floor(d / 86400000);
-        document.getElementById("hours").innerHTML = Math.floor((d % 86400000) / 3600000);
-        document.getElementById("minutes").innerHTML = Math.floor((d % 3600000) / 60000);
-        document.getElementById("seconds").innerHTML = Math.floor((d % 60000) / 1000);
-    }, 1000);
+    const updateTimer = () => {
+        const now = new Date().getTime();
+        const d = eventDate - now;
+        if (d < 0) return;
+        document.getElementById("days").innerText = Math.floor(d / 86400000).toString().padStart(2, '0');
+        document.getElementById("hours").innerText = Math.floor((d % 86400000) / 3600000).toString().padStart(2, '0');
+        document.getElementById("minutes").innerText = Math.floor((d % 3600000) / 60000).toString().padStart(2, '0');
+        document.getElementById("seconds").innerText = Math.floor((d % 60000) / 1000).toString().padStart(2, '0');
+    };
+    setInterval(updateTimer, 1000);
+    updateTimer();
 
     document.getElementById('inviteForm').onsubmit = function(e) {
         e.preventDefault();
-        const msg = encodeURIComponent(`Namaste! I am ${document.getElementById('guestName').value}. Confirming for Advait's Kua Pujan. Guests: ${document.getElementById('guestCount').value}.`);
+        const name = document.getElementById('guestName').value;
+        const count = document.getElementById('guestCount').value;
+        const msg = encodeURIComponent(`Namaste! I am ${name}. Confirming for Advait's Kua Pujan. Guests: ${count}.`);
         window.open(`https://wa.me/918839974860?text=${msg}`, '_blank');
     }
 </script>
