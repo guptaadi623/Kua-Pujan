@@ -130,15 +130,15 @@
         /* --- GALLERY HOVER EFFECT --- */
         .gallery img {
             width: 100%;
-            border-radius: 8px;
+            border-radius: 12px;
             border: 2px solid var(--gold);
-            transition: all 0.4s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             filter: brightness(0.9);
         }
         .gallery img:hover {
-            transform: translateY(-10px) scale(1.02);
+            transform: translateY(-10px) scale(1.04);
             filter: brightness(1.1);
-            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.4);
+            box-shadow: 0 15px 30px rgba(197, 160, 89, 0.4);
             border-color: var(--dark-green);
         }
 
@@ -151,7 +151,12 @@
         }
         .divider-icon { font-size: 28px; margin: 0 15px; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2)); }
 
-        /* --- UI ELEMENTS --- */
+        /* --- FLOATING ELEMENTS --- */
+        .float-decoration { position: absolute; z-index: 5; opacity: 0; transition: all 1.5s ease; pointer-events: none; }
+        .float-left { transform: translateX(-100px); left: 5%; }
+        .float-right { transform: translateX(100px); right: 5%; }
+        .float-decoration.active { opacity: 0.6; transform: translateX(0); }
+
         .petal { position: fixed; top: -10px; z-index: 998; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
@@ -177,7 +182,7 @@
         .gallery { padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; max-width: 800px; margin: 0 auto; }
 
         .card { background: white; margin: 40px auto; padding: 40px 20px; max-width: 450px; width: 90%; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid var(--gold); }
-        .iframe-container { width: 100%; height: 300px; border-radius: 10px; overflow: hidden; margin: 15px 0; border: 2px solid var(--gold); }
+        .iframe-container { width: 100%; height: 320px; border-radius: 15px; overflow: hidden; margin: 20px 0; border: 2px solid var(--gold); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
 
         .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; margin: 10px 0; transition: 0.3s; border: none; }
         .btn:hover { background: var(--gold); transform: scale(1.05); }
@@ -223,6 +228,9 @@
     </div>
 
     <section class="hero">
+        <div class="float-decoration float-left active" style="top: 10%; font-size: 40px;">🦚</div>
+        <div class="float-decoration float-right active" style="top: 30%; font-size: 30px;">🌸</div>
+
         <div class="reveal active" style="max-width: 650px;">
             <p class="sub-gold" style="margin-bottom: 20px;">A New Chapter Begins</p>
             <p style="font-style: italic; line-height: 1.8; font-size: 1.1rem; color: var(--dark-green); margin-bottom: 10px; padding: 0 20px;">
@@ -265,11 +273,11 @@
     <section class="card reveal">
         <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Venue</h2>
         <div class="iframe-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14022.0123456789!2d77.1723456!3d28.5023456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1e123456789%3A0x123456789abcdef!2sChhatarpur%2C%20New%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1234567890123" 
-            width="100%" height="100%" style="border:0; filter: sepia(30%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.318182740925!2d79.58434727505677!3d24.92125584282367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397897ba39c39961%3A0x2d0a5a59e585e1b0!2sDr.%20Piyush%20Bajaj%20Clinic!5e0!3m2!1sen!2sin!4v1739591300000!5m2!1sen!2sin" 
+            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
-        <p>📍 Nij Niwas, Chhatarpur</p>
-        <a href="https://maps.google.com/?q=Chhatarpur" target="_blank" class="btn">Navigate on Maps</a>
+        <p>📍 <strong>Dr. Piyush Bajaj Clinic</strong><br>Satai Rd, Swami Vivekanand Colony, Chhatarpur, MP</p>
+        <a href="https://maps.app.goo.gl/PAnR4RkaUvW25GzW6" target="_blank" class="btn">Start Navigation to Venue</a>
     </section>
 
     <section class="rsvp-section reveal" id="rsvpForm">
@@ -279,6 +287,8 @@
             <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required><br>
             <button type="submit" class="btn">Confirm Attendance</button>
         </form>
+        <br>
+        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Dr.+Piyush+Bajaj+Clinic,+Chhatarpur" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">+ Add to Google Calendar</a>
     </section>
 
     <footer>
@@ -287,22 +297,26 @@
     </footer>
 
 <script>
+    // 1. Loader Logic
     window.addEventListener("load", function() {
         const loader = document.getElementById("loader-wrapper");
         setTimeout(() => { loader.classList.add("loader-hidden"); }, 1500); 
     });
 
+    // 2. Custom Cursor Logic
     const cursor = document.getElementById('custom-cursor');
     document.addEventListener('mousemove', e => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
     });
 
+    // 3. Lightbox Logic
     function openLightbox(src) {
         document.getElementById('lightbox-img').src = src;
         document.getElementById('lightbox').style.display = 'flex';
     }
 
+    // 4. Virtual Door Logic
     function openDoors(wrapper) {
         const text = document.getElementById('door-text');
         if(text) text.classList.add('text-hidden');
@@ -310,6 +324,7 @@
         setTimeout(() => { wrapper.style.display = 'none'; }, 1500);
     }
 
+    // 5. Scroll Features Logic
     window.addEventListener('scroll', () => {
         const theta = window.pageYOffset / 5;
         document.getElementById('scroll-mandala').style.transform = `rotate(${theta}deg)`;
@@ -318,8 +333,12 @@
         reveals.forEach(r => {
             if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active');
         });
+
+        const floats = document.querySelectorAll('.float-decoration');
+        floats.forEach(f => { if(window.pageYOffset > 200) f.classList.add('active'); });
     });
 
+    // 6. Interaction Logic
     function toggleMusic() {
         var music = document.getElementById("bgMusic");
         var btn = document.getElementById("musicToggle");
