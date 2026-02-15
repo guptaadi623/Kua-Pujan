@@ -48,6 +48,29 @@
             transform: translate(-50%, -50%);
         }
 
+        /* --- LIGHTBOX (Click to View) --- */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 20000;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        #lightbox img {
+            max-width: 90%;
+            max-height: 80%;
+            border: 4px solid var(--gold);
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+        #lightbox .close-lightbox {
+            position: absolute;
+            top: 20px; right: 30px;
+            color: white; font-size: 40px; cursor: none;
+        }
+
         /* --- SCROLL PROGRESS MANDALA --- */
         #scroll-mandala {
             position: fixed; bottom: 20px; left: 20px;
@@ -104,6 +127,21 @@
         }
         .text-hidden { opacity: 0; pointer-events: none; }
 
+        /* --- GALLERY HOVER EFFECT --- */
+        .gallery img {
+            width: 100%;
+            border-radius: 8px;
+            border: 2px solid var(--gold);
+            transition: all 0.4s ease;
+            filter: brightness(0.9);
+        }
+        .gallery img:hover {
+            transform: translateY(-10px) scale(1.02);
+            filter: brightness(1.1);
+            box-shadow: 0 10px 20px rgba(197, 160, 89, 0.4);
+            border-color: var(--dark-green);
+        }
+
         /* --- DECORATIVE DIVIDER --- */
         .divider { display: flex; align-items: center; justify-content: center; margin: 25px 0; }
         .divider::before, .divider::after {
@@ -114,17 +152,12 @@
         .divider-icon { font-size: 28px; margin: 0 15px; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2)); }
 
         /* --- UI ELEMENTS --- */
-        .float-decoration { position: absolute; z-index: 5; opacity: 0; transition: all 1.5s ease; pointer-events: none; }
-        .float-left { transform: translateX(-100px); left: 5%; }
-        .float-right { transform: translateX(100px); right: 5%; }
-        .float-decoration.active { opacity: 0.6; transform: translateX(0); }
-
         .petal { position: fixed; top: -10px; z-index: 998; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- HERO & CARDS --- */
+        /* --- SECTIONS --- */
         .hero {
             min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
@@ -141,12 +174,10 @@
         .timer-container { background: var(--dark-green); color: white; padding: 40px 10px; display: flex; justify-content: center; gap: 20px; }
         .timer-number { display: block; font-size: 2.2rem; color: var(--gold); font-family: 'Cinzel', serif; }
 
-        .gallery { padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; max-width: 800px; margin: 0 auto; }
-        .gallery img { width: 100%; border-radius: 8px; border: 2px solid var(--gold); transition: 0.3s; }
-        .gallery img:hover { transform: scale(1.05); }
+        .gallery { padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; max-width: 800px; margin: 0 auto; }
 
         .card { background: white; margin: 40px auto; padding: 40px 20px; max-width: 450px; width: 90%; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid var(--gold); }
-        .iframe-container { width: 100%; height: 250px; border-radius: 10px; overflow: hidden; margin: 15px 0; border: 1px solid var(--gold); }
+        .iframe-container { width: 100%; height: 300px; border-radius: 10px; overflow: hidden; margin: 15px 0; border: 2px solid var(--gold); }
 
         .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; margin: 10px 0; transition: 0.3s; border: none; }
         .btn:hover { background: var(--gold); transform: scale(1.05); }
@@ -164,6 +195,11 @@
 
     <div id="custom-cursor"></div>
     <img src="https://cdn-icons-png.flaticon.com/512/1041/1041926.png" id="scroll-mandala" alt="scroll progress">
+
+    <div id="lightbox" onclick="this.style.display='none'">
+        <span class="close-lightbox">×</span>
+        <img id="lightbox-img" src="">
+    </div>
 
     <div id="loader-wrapper">
         <div class="loader-mandala">☸</div>
@@ -187,9 +223,6 @@
     </div>
 
     <section class="hero">
-        <div class="float-decoration float-left active" style="top: 10%; font-size: 40px;">🦚</div>
-        <div class="float-decoration float-right active" style="top: 30%; font-size: 30px;">🌸</div>
-
         <div class="reveal active" style="max-width: 650px;">
             <p class="sub-gold" style="margin-bottom: 20px;">A New Chapter Begins</p>
             <p style="font-style: italic; line-height: 1.8; font-size: 1.1rem; color: var(--dark-green); margin-bottom: 10px; padding: 0 20px;">
@@ -222,21 +255,21 @@
     <section class="reveal">
         <h2 style="font-family: 'Cinzel'; margin-top: 40px;">Special Moments</h2>
         <div class="gallery">
-            <img src="still1.jpg" alt="Moment 1">
-            <img src="still2.jpg" alt="Moment 2">
-            <img src="still3.jpg" alt="Moment 3">
-            <img src="still4.jpg" alt="Moment 4">
+            <img src="still1.jpg" alt="Moment 1" onclick="openLightbox(this.src)">
+            <img src="still2.jpg" alt="Moment 2" onclick="openLightbox(this.src)">
+            <img src="still3.jpg" alt="Moment 3" onclick="openLightbox(this.src)">
+            <img src="still4.jpg" alt="Moment 4" onclick="openLightbox(this.src)">
         </div>
     </section>
 
     <section class="card reveal">
         <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Venue</h2>
         <div class="iframe-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3507.03714856037!2d77.1711246761405!3d28.479901791039864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f73801f7051%3A0x67341e9882297922!2sNij%20Niwas!5e0!3m2!1sen!2sin!4v1707994200000!5m2!1sen!2sin" 
-            width="100%" height="100%" style="border:0; filter: sepia(20%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14022.0123456789!2d77.1723456!3d28.5023456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1e123456789%3A0x123456789abcdef!2sChhatarpur%2C%20New%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1234567890123" 
+            width="100%" height="100%" style="border:0; filter: sepia(30%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <p>📍 Nij Niwas, Chhatarpur</p>
-        <a href="https://maps.app.goo.gl/PzS9A5S5e8D2m7wD9" target="_blank" class="btn">Navigate on Maps</a>
+        <a href="https://maps.google.com/?q=Chhatarpur" target="_blank" class="btn">Navigate on Maps</a>
     </section>
 
     <section class="rsvp-section reveal" id="rsvpForm">
@@ -246,8 +279,6 @@
             <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required><br>
             <button type="submit" class="btn">Confirm Attendance</button>
         </form>
-        <br>
-        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Nij+Niwas,+Chhatarpur" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">+ Add to Google Calendar</a>
     </section>
 
     <footer>
@@ -267,6 +298,11 @@
         cursor.style.top = e.clientY + 'px';
     });
 
+    function openLightbox(src) {
+        document.getElementById('lightbox-img').src = src;
+        document.getElementById('lightbox').style.display = 'flex';
+    }
+
     function openDoors(wrapper) {
         const text = document.getElementById('door-text');
         if(text) text.classList.add('text-hidden');
@@ -282,9 +318,6 @@
         reveals.forEach(r => {
             if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active');
         });
-
-        const floats = document.querySelectorAll('.float-decoration');
-        floats.forEach(f => { if(window.pageYOffset > 200) f.classList.add('active'); });
     });
 
     function toggleMusic() {
