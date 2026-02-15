@@ -23,7 +23,19 @@
             scroll-behavior: smooth;
         }
 
-        /* 1. VIRTUAL DOOR ANIMATION */
+        /* --- LOADING SCREEN --- */
+        #loader-wrapper {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--cream); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; z-index: 10001;
+            transition: opacity 0.8s ease-out, visibility 0.8s;
+        }
+        .loader-mandala { font-size: 60px; color: var(--gold); animation: rotateMandala 4s linear infinite; }
+        @keyframes rotateMandala { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .loader-text { margin-top: 20px; font-family: 'Cinzel', serif; color: var(--wood); letter-spacing: 3px; font-size: 0.8rem; }
+        .loader-hidden { opacity: 0; visibility: hidden; }
+
+        /* --- VIRTUAL DOOR ANIMATION --- */
         #door-wrapper {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 9999; display: flex; cursor: pointer;
@@ -39,248 +51,21 @@
         .door-right { border-left: none; }
         #door-wrapper.open .door-left { transform: translateX(-100%); }
         #door-wrapper.open .door-right { transform: translateX(100%); }
-        #door-wrapper.open { pointer-events: none; }
         .enter-text {
             position: absolute; color: white; font-family: 'Cinzel';
             background: rgba(0,0,0,0.6); padding: 15px 30px; 
             border: 1px solid var(--gold); letter-spacing: 2px;
+            transition: opacity 0.5s ease;
         }
+        .text-hidden { opacity: 0; pointer-events: none; }
 
-        /* 4. FALLING PETALS */
-        .petal {
-            position: fixed; top: -10px; z-index: 998;
-            pointer-events: none; animation: fall linear forwards;
+        /* --- DECORATIVE DIVIDER --- */
+        .divider { display: flex; align-items: center; justify-content: center; margin: 25px 0; }
+        .divider::before, .divider::after {
+            content: ""; flex: 1; height: 1px;
+            background: linear-gradient(to right, transparent, var(--gold), transparent);
+            max-width: 120px;
         }
-        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+        .divider-icon { font-size: 28px; margin: 0 15px; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2)); }
 
-        /* General Reveal Animation */
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
-        /* Hero Section */
-        .hero {
-            height: 80vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
-                        url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover fixed;
-            border-bottom: 5px solid var(--gold);
-        }
-
-        h1 { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--wood); margin: 10px 0; }
-        .sub-gold { color: var(--gold); font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
-
-        /* Video Section */
-        .video-section { padding: 40px 20px; background: white; }
-        .video-container {
-            max-width: 350px; margin: 0 auto;
-            border-radius: 15px; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            border: 4px solid var(--gold);
-        }
-        video { width: 100%; display: block; }
-
-        /* Timer */
-        .timer-container {
-            background: var(--dark-green); color: white;
-            padding: 40px 10px; display: flex; justify-content: center; gap: 20px;
-        }
-        .timer-number { display: block; font-size: 2.2rem; color: var(--gold); font-family: 'Cinzel', serif; }
-
-        /* Gallery */
-        .gallery { padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; max-width: 800px; margin: 0 auto; }
-        .gallery img { width: 100%; border-radius: 8px; border: 2px solid var(--gold); transition: 0.3s; cursor: pointer; }
-        .gallery img:hover { transform: scale(1.05); }
-
-        /* Cards & Components */
-        .card {
-            background: white; margin: 40px auto; padding: 40px 20px;
-            max-width: 450px; width: 90%; border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid var(--gold);
-        }
-
-        .iframe-container { width: 100%; height: 250px; border-radius: 10px; overflow: hidden; margin: 15px 0; border: 1px solid var(--gold); }
-
-        .btn {
-            display: inline-block; background: var(--dark-green); color: white;
-            padding: 16px 30px; text-decoration: none; border-radius: 50px;
-            font-weight: 600; margin: 10px 0; transition: 0.3s; border: none; cursor: pointer;
-        }
-        .btn:hover { background: var(--gold); transform: scale(1.05); }
-
-        /* UI Elements */
-        #musicToggle {
-            position: fixed; bottom: 80px; left: 20px;
-            background: var(--gold); color: white; border: none;
-            border-radius: 50%; width: 50px; height: 50px;
-            cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 20px;
-        }
-        .float-rsvp {
-            position: fixed; bottom: 20px; right: 20px;
-            background: var(--dark-green); color: white;
-            padding: 12px 25px; border-radius: 50px;
-            text-decoration: none; font-weight: 600; z-index: 1000;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-
-        /* 5. THANK YOU POPUP */
-        #thankYouPopup {
-            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: white; padding: 30px; border-radius: 15px; z-index: 10000;
-            box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 3px solid var(--gold); width: 80%; max-width: 300px;
-        }
-
-        .rsvp-section { background: #f2eee6; padding: 60px 20px; }
-        input { width: 85%; max-width: 350px; padding: 15px; margin: 10px 0; border: 1px solid #d1c7b7; border-radius: 8px; }
-
-        footer { padding: 50px 20px; background: var(--cream); }
-    </style>
-</head>
-<body>
-
-    <div id="door-wrapper" onclick="this.classList.add('open')">
-        <div class="door door-left"></div>
-        <div class="door door-right"></div>
-        <div class="enter-text">TAP TO ENTER</div>
-    </div>
-
-    <audio id="bgMusic" loop>
-        <source src="background_music.mp3" type="audio/mpeg">
-    </audio>
-    <button id="musicToggle" onclick="toggleMusic()">🎵</button>
-
-    <a href="#rsvpForm" class="float-rsvp">RSVP Now</a>
-
-    <div id="thankYouPopup">
-        <h2 style="font-family: 'Cinzel'; color: var(--wood);">Dhanyawad!</h2>
-        <p>Redirecting to WhatsApp to send your blessings...</p>
-        <button class="btn" onclick="closePopup()">Close</button>
-    </div>
-
-    <section class="hero">
-        <p class="sub-gold">Sowing the Seeds of Tradition</p>
-        <h1>Kua Pujan</h1>
-        <p>of our beloved son</p>
-        <div class="highlight" style="font-size: 2.5rem; font-family: 'Cinzel'; color: var(--wood);">ADVAIT GUPTA</div>
-    </section>
-
-    <section class="video-section reveal">
-        <h2 style="font-family: 'Cinzel';">Watch the Invitation</h2>
-        <div class="video-container">
-            <video controls poster="poster_image.jpg">
-                <source src="kua_pujan.mp4" type="video/mp4">
-            </video>
-        </div>
-    </section>
-
-    <div class="timer-container">
-        <div class="timer-box"><span class="timer-number" id="days">00</span><span>Days</span></div>
-        <div class="timer-box"><span class="timer-number" id="hours">00</span><span>Hours</span></div>
-        <div class="timer-box"><span class="timer-number" id="minutes">00</span><span>Mins</span></div>
-        <div class="timer-box"><span class="timer-number" id="seconds">00</span><span>Secs</span></div>
-    </div>
-
-    <section class="reveal">
-        <h2 style="font-family: 'Cinzel'; margin-top: 40px;">Special Moments</h2>
-        <div class="gallery">
-            <img src="still1.jpg" alt="Moment 1">
-            <img src="still2.jpg" alt="Moment 2">
-            <img src="still3.jpg" alt="Moment 3">
-            <img src="still4.jpg" alt="Moment 4">
-        </div>
-    </section>
-
-    <section class="card reveal">
-        <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Venue</h2>
-        <div class="iframe-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.123456789!2d79.5812345!3d24.9123456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDU0JzQ0LjQiTiA3OcKwMzQnNTIuNCJF!5e0!3m2!1sen!2sin!4v1621360841013!5m2!1sen!2sin" 
-            width="100%" height="100%" style="border:0; filter: sepia(20%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-        <p>📍 Nij Niwas, Chhatarpur</p>
-        <a href="https://maps.google.com" target="_blank" class="btn">Navigate on Maps</a>
-    </section>
-
-    <section class="card reveal" style="background: var(--dark-green); color: white;">
-        <h2 style="font-family: 'Cinzel'; color: var(--gold);">Blessings Wall</h2>
-        <p>Can't make it? Drop a digital blessing for our little one!</p>
-        <a href="https://forms.google.com" target="_blank" class="btn" style="background:var(--gold); color:var(--dark-green);">Leave a Blessing</a>
-    </section>
-
-    <section class="rsvp-section reveal" id="rsvpForm">
-        <h2>Kindly RSVP</h2>
-        <form id="inviteForm">
-            <input type="text" id="guestName" placeholder="Your Full Name" required><br>
-            <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required><br>
-            <button type="submit" class="btn">Confirm Attendance</button>
-        </form>
-        <br>
-        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Nij+Niwas,+Chhatarpur" 
-           target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">
-           + Add to Google Calendar
-        </a>
-    </section>
-
-    <footer>
-        <p>Seeking your love and blessings,</p>
-        <p><strong>Somya & Prabhat Gupta</strong></p>
-    </footer>
-
-<script>
-    // 1. Music Logic
-    function toggleMusic() {
-        var music = document.getElementById("bgMusic");
-        var btn = document.getElementById("musicToggle");
-        if (music.paused) { music.play(); btn.innerHTML = "⏸️"; } 
-        else { music.pause(); btn.innerHTML = "🎵"; }
-    }
-
-    // 4. Falling Petals Logic
-    function createPetal() {
-        const petal = document.createElement('div');
-        petal.innerHTML = '🌸'; 
-        petal.className = 'petal';
-        petal.style.left = Math.random() * 100 + 'vw';
-        petal.style.animationDuration = Math.random() * 3 + 3 + 's';
-        petal.style.opacity = Math.random();
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 6000);
-    }
-    setInterval(createPetal, 450);
-
-    // Scroll Reveal Logic
-    window.addEventListener('scroll', () => {
-        var reveals = document.querySelectorAll('.reveal');
-        for (var i = 0; i < reveals.length; i++) {
-            var windowHeight = window.innerHeight;
-            var revealTop = reveals[i].getBoundingClientRect().top;
-            if (revealTop < windowHeight - 100) { reveals[i].classList.add('active'); }
-        }
-    });
-
-    // Countdown Logic
-    const eventDate = new Date("Feb 23, 2026 19:00:00").getTime();
-    setInterval(function() {
-        const now = new Date().getTime();
-        const distance = eventDate - now;
-        document.getElementById("days").innerHTML = Math.floor(distance / 86400000);
-        document.getElementById("hours").innerHTML = Math.floor((distance % 86400000) / 3600000);
-        document.getElementById("minutes").innerHTML = Math.floor((distance % 3600000) / 60000);
-        document.getElementById("seconds").innerHTML = Math.floor((distance % 60000) / 1000);
-    }, 1000);
-
-    // 5. WhatsApp RSVP & Thank You Logic
-    document.getElementById('inviteForm').onsubmit = function(e) {
-        e.preventDefault();
-        document.getElementById('thankYouPopup').style.display = 'block';
-        
-        const name = document.getElementById('guestName').value;
-        const count = document.getElementById('guestCount').value;
-        const message = encodeURIComponent(`Namaste! I am ${name}. Confirming for Advait's Kua Pujan. Guests: ${count}.`);
-        
-        setTimeout(() => {
-            window.open(`https://wa.me/918839974860?text=${message}`, '_blank');
-        }, 1500);
-    }
-
-    function closePopup() { document.getElementById('thankYouPopup').style.display = 'none'; }
-</script>
-</body>
-</html>
+        /* --- UI ELEMENTS --- */
