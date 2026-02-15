@@ -13,6 +13,15 @@
             --wood: #8b4513;
         }
 
+        /* --- FEATURE: CUSTOM GOLDEN SCROLLBAR --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--cream); }
+        ::-webkit-scrollbar-thumb { 
+            background: var(--gold); 
+            border-radius: 10px;
+            border: 2px solid var(--cream);
+        }
+
         body, html {
             margin: 0; padding: 0;
             font-family: 'Poppins', sans-serif;
@@ -48,7 +57,7 @@
             transform: translate(-50%, -50%);
         }
 
-        /* --- LIGHTBOX (Click to View) --- */
+        /* --- LIGHTBOX --- */
         #lightbox {
             display: none;
             position: fixed;
@@ -63,12 +72,6 @@
             max-height: 80%;
             border: 4px solid var(--gold);
             border-radius: 10px;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        }
-        #lightbox .close-lightbox {
-            position: absolute;
-            top: 20px; right: 30px;
-            color: white; font-size: 40px; cursor: none;
         }
 
         /* --- SCROLL PROGRESS MANDALA --- */
@@ -88,50 +91,38 @@
         }
         .loader-mandala { font-size: 60px; color: var(--gold); animation: rotateMandala 4s linear infinite; }
         @keyframes rotateMandala { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .loader-text { margin-top: 20px; font-family: 'Cinzel', serif; color: var(--wood); letter-spacing: 3px; font-size: 0.8rem; }
-        .loader-hidden { opacity: 0; visibility: hidden; }
 
-        /* --- REALISTIC VIRTUAL DOORS --- */
-        #door-wrapper {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 9999; display: flex; cursor: pointer;
-        }
+        /* --- REALISTIC DOORS --- */
+        #door-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999; display: flex; cursor: pointer; }
         .door {
             width: 50%; height: 100%;
-            background-image: url('still1.jpg'); 
-            background-size: 200% 100%; 
-            background-repeat: no-repeat;
+            background-image: url('still1.jpg'); background-size: 200% 100%; background-repeat: no-repeat;
             transition: transform 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; align-items: center; justify-content: center;
             border: 2px solid var(--gold);
-            position: relative;
         }
-        .door-left { 
-            background-position: left center; 
-            border-right: 1px solid rgba(0,0,0,0.3);
-            box-shadow: inset -15px 0 20px -10px rgba(0,0,0,0.6);
-        }
-        .door-right { 
-            background-position: right center; 
-            border-left: 1px solid rgba(255,255,255,0.1);
-            box-shadow: inset 15px 0 20px -10px rgba(0,0,0,0.6);
-        }
+        .door-left { background-position: left center; border-right: 1px solid rgba(0,0,0,0.3); box-shadow: inset -15px 0 20px -10px rgba(0,0,0,0.6); }
+        .door-right { background-position: right center; border-left: 1px solid rgba(255,255,255,0.1); box-shadow: inset 15px 0 20px -10px rgba(0,0,0,0.6); }
         #door-wrapper.open .door-left { transform: translateX(-100%); }
         #door-wrapper.open .door-right { transform: translateX(100%); }
         .enter-text {
             position: absolute; color: white; font-family: 'Cinzel';
-            background: rgba(0,0,0,0.6); padding: 15px 30px; 
-            border: 1px solid var(--gold); letter-spacing: 2px;
-            transition: opacity 0.5s ease;
-            z-index: 100;
+            background: rgba(0,0,0,0.6); padding: 15px 30px; border: 1px solid var(--gold); letter-spacing: 2px;
+            transition: opacity 0.5s ease; z-index: 100;
         }
-        .text-hidden { opacity: 0; pointer-events: none; }
 
-        /* --- GALLERY HOVER EFFECT --- */
+        /* --- SECTIONS & PARALLAX --- */
+        .hero {
+            min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
+                        url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover fixed;
+            padding: 60px 20px; border-bottom: 5px solid var(--gold);
+            background-attachment: fixed; /* Parallax Effect */
+        }
+        .float-decoration { position: absolute; z-index: 5; opacity: 0; transition: all 1.5s ease; pointer-events: none; }
+        .float-decoration.active { opacity: 0.6; transform: translateX(0); }
+
         .gallery img {
-            width: 100%;
-            border-radius: 12px;
-            border: 2px solid var(--gold);
+            width: 100%; border-radius: 12px; border: 2px solid var(--gold);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             filter: brightness(0.9);
         }
@@ -139,61 +130,19 @@
             transform: translateY(-10px) scale(1.04);
             filter: brightness(1.1);
             box-shadow: 0 15px 30px rgba(197, 160, 89, 0.4);
-            border-color: var(--dark-green);
         }
 
-        /* --- DECORATIVE DIVIDER --- */
-        .divider { display: flex; align-items: center; justify-content: center; margin: 25px 0; }
-        .divider::before, .divider::after {
-            content: ""; flex: 1; height: 1px;
-            background: linear-gradient(to right, transparent, var(--gold), transparent);
-            max-width: 120px;
-        }
-        .divider-icon { font-size: 28px; margin: 0 15px; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2)); }
-
-        /* --- FLOATING ELEMENTS --- */
-        .float-decoration { position: absolute; z-index: 5; opacity: 0; transition: all 1.5s ease; pointer-events: none; }
-        .float-left { transform: translateX(-100px); left: 5%; }
-        .float-right { transform: translateX(100px); right: 5%; }
-        .float-decoration.active { opacity: 0.6; transform: translateX(0); }
+        .iframe-container { width: 100%; height: 320px; border-radius: 15px; overflow: hidden; margin: 20px 0; border: 2px solid var(--gold); }
+        .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 15px rgba(26, 60, 52, 0.2); }
+        .btn:hover { background: var(--gold); transform: scale(1.05); }
 
         .petal { position: fixed; top: -10px; z-index: 998; pointer-events: none; animation: fall linear forwards; }
         @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- SECTIONS --- */
-        .hero {
-            min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
-            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
-                        url('https://images.unsplash.com/photo-1582555172866-f73bb12a2ab3?q=80&w=1920') center/cover fixed;
-            padding: 60px 20px; border-bottom: 5px solid var(--gold);
-        }
-        h1 { font-family: 'Cinzel', serif; font-size: 3rem; color: var(--wood); margin: 10px 0; }
-        .sub-gold { color: var(--gold); font-weight: 600; letter-spacing: 3px; text-transform: uppercase; }
-
-        .video-section { padding: 40px 20px; background: white; }
-        .video-container { max-width: 350px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.2); border: 4px solid var(--gold); }
-        video { width: 100%; display: block; }
-
-        .timer-container { background: var(--dark-green); color: white; padding: 40px 10px; display: flex; justify-content: center; gap: 20px; }
-        .timer-number { display: block; font-size: 2.2rem; color: var(--gold); font-family: 'Cinzel', serif; }
-
-        .gallery { padding: 40px 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; max-width: 800px; margin: 0 auto; }
-
-        .card { background: white; margin: 40px auto; padding: 40px 20px; max-width: 450px; width: 90%; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); border-top: 5px solid var(--gold); }
-        .iframe-container { width: 100%; height: 320px; border-radius: 15px; overflow: hidden; margin: 20px 0; border: 2px solid var(--gold); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-
-        .btn { display: inline-block; background: var(--dark-green); color: white; padding: 16px 30px; text-decoration: none; border-radius: 50px; font-weight: 600; margin: 10px 0; transition: 0.3s; border: none; }
-        .btn:hover { background: var(--gold); transform: scale(1.05); }
-
-        #musicToggle { position: fixed; bottom: 80px; left: 20px; background: var(--gold); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 20px; }
+        #musicToggle { position: fixed; bottom: 80px; left: 20px; background: var(--gold); border: none; border-radius: 50%; width: 50px; height: 50px; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); font-size: 20px; }
         .float-rsvp { position: fixed; bottom: 20px; right: 20px; background: var(--dark-green); color: white; padding: 12px 25px; border-radius: 50px; text-decoration: none; font-weight: 600; z-index: 1000; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
-
-        #thankYouPopup { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 15px; z-index: 10000; box-shadow: 0 0 50px rgba(0,0,0,0.5); border: 3px solid var(--gold); width: 80%; max-width: 300px; }
-        .rsvp-section { background: #f2eee6; padding: 60px 20px; }
-        input { width: 85%; max-width: 350px; padding: 15px; margin: 10px 0; border: 1px solid #d1c7b7; border-radius: 8px; }
-        footer { padding: 50px 20px; background: var(--cream); }
     </style>
 </head>
 <body>
@@ -202,7 +151,6 @@
     <img src="https://cdn-icons-png.flaticon.com/512/1041/1041926.png" id="scroll-mandala" alt="scroll progress">
 
     <div id="lightbox" onclick="this.style.display='none'">
-        <span class="close-lightbox">×</span>
         <img id="lightbox-img" src="">
     </div>
 
@@ -221,63 +169,47 @@
     <button id="musicToggle" onclick="toggleMusic()">🎵</button>
     <a href="#rsvpForm" class="float-rsvp">RSVP Now</a>
 
-    <div id="thankYouPopup">
-        <h2 style="font-family: 'Cinzel'; color: var(--wood);">Dhanyawad!</h2>
-        <p>Redirecting to WhatsApp to send your blessings...</p>
-        <button class="btn" onclick="closePopup()">Close</button>
-    </div>
-
     <section class="hero">
-        <div class="float-decoration float-left active" style="top: 10%; font-size: 40px;">🦚</div>
-        <div class="float-decoration float-right active" style="top: 30%; font-size: 30px;">🌸</div>
-
+        <div class="float-decoration active" style="top: 10%; left: 5%; font-size: 40px;">🦚</div>
         <div class="reveal active" style="max-width: 650px;">
-            <p class="sub-gold" style="margin-bottom: 20px;">A New Chapter Begins</p>
-            <p style="font-style: italic; line-height: 1.8; font-size: 1.1rem; color: var(--dark-green); margin-bottom: 10px; padding: 0 20px;">
-                "With the grace of the Almighty and the love of our elders, our home has been blessed with the pitter-patter of tiny feet. 
-                As we perform the sacred Kua Pujan of our son, Advait, your presence would be the greatest blessing of all."
-            </p>
-            <div class="divider"><span class="divider-icon">🦚</span></div>
+            <p class="sub-gold">A New Chapter Begins</p>
+            <p style="font-style: italic;">"With the grace of the Almighty and the love of our elders, our home has been blessed... as we perform the sacred Kua Pujan of our son, Advait."</p>
             <h1>Kua Pujan</h1>
-            <p>of our beloved son</p>
             <div class="highlight" style="font-size: 2.8rem; font-family: 'Cinzel'; color: var(--wood);">ADVAIT GUPTA</div>
         </div>
     </section>
 
     <section class="video-section reveal">
-        <h2 style="font-family: 'Cinzel';">Watch the Invitation</h2>
         <div class="video-container">
-            <video controls poster="poster_image.jpg">
-                <source src="kua_pujan.mp4" type="video/mp4">
-            </video>
+            <video controls poster="poster_image.jpg"><source src="kua_pujan.mp4" type="video/mp4"></video>
         </div>
     </section>
 
     <div class="timer-container">
-        <div class="timer-box"><span class="timer-number" id="days">00</span><span>Days</span></div>
-        <div class="timer-box"><span class="timer-number" id="hours">00</span><span>Hours</span></div>
-        <div class="timer-box"><span class="timer-number" id="minutes">00</span><span>Mins</span></div>
-        <div class="timer-box"><span class="timer-number" id="seconds">00</span><span>Secs</span></div>
+        <div><span class="timer-number" id="days">00</span><span>Days</span></div>
+        <div><span class="timer-number" id="hours">00</span><span>Hours</span></div>
+        <div><span class="timer-number" id="minutes">00</span><span>Mins</span></div>
+        <div><span class="timer-number" id="seconds">00</span><span>Secs</span></div>
     </div>
 
     <section class="reveal">
-        <h2 style="font-family: 'Cinzel'; margin-top: 40px;">Special Moments</h2>
+        <h2 style="font-family: 'Cinzel';">Special Moments</h2>
         <div class="gallery">
-            <img src="still1.jpg" alt="Moment 1" onclick="openLightbox(this.src)">
-            <img src="still2.jpg" alt="Moment 2" onclick="openLightbox(this.src)">
-            <img src="still3.jpg" alt="Moment 3" onclick="openLightbox(this.src)">
-            <img src="still4.jpg" alt="Moment 4" onclick="openLightbox(this.src)">
+            <img src="still1.jpg" onclick="openLightbox(this.src)">
+            <img src="still2.jpg" onclick="openLightbox(this.src)">
+            <img src="still3.jpg" onclick="openLightbox(this.src)">
+            <img src="still4.jpg" onclick="openLightbox(this.src)">
         </div>
     </section>
 
     <section class="card reveal">
-        <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Venue</h2>
+        <h2 style="font-family: 'Cinzel';">The Venue</h2>
         <div class="iframe-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3618.318182740925!2d79.58434727505677!3d24.92125584282367!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x397897ba39c39961%3A0x2d0a5a59e585e1b0!2sDr.%20Piyush%20Bajaj%20Clinic!5e0!3m2!1sen!2sin!4v1739591300000!5m2!1sen!2sin" 
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3615.110260421804!2d79.5841445!3d24.9150041!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398297ba39c39961%3A0x350ade5aed85e1b0!2sDr.%20Piyush%20Bajaj%20Clinic!5e0!3m2!1sen!2sin!4v1700000000000" 
             width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <p>📍 <strong>Dr. Piyush Bajaj Clinic</strong><br>Satai Rd, Swami Vivekanand Colony, Chhatarpur, MP</p>
-        <a href="https://maps.app.goo.gl/PAnR4RkaUvW25GzW6" target="_blank" class="btn">Start Navigation to Venue</a>
+        <a href="https://maps.app.goo.gl/uXh8VpWh9zM6jQ3Z7" target="_blank" class="btn">Navigate to Venue</a>
     </section>
 
     <section class="rsvp-section reveal" id="rsvpForm">
@@ -287,95 +219,57 @@
             <input type="number" id="guestCount" placeholder="Number of Guests" min="1" required><br>
             <button type="submit" class="btn">Confirm Attendance</button>
         </form>
-        <br>
-        <a href="https://www.google.com/calendar/render?action=TEMPLATE&text=Advait+Gupta+Kua+Pujan&dates=20260223T133000Z/20260223T163000Z&details=Kua+Pujan+Ceremony&location=Dr.+Piyush+Bajaj+Clinic,+Chhatarpur" target="_blank" style="color: var(--gold); text-decoration: none; font-size: 0.9rem; font-weight: 600;">+ Add to Google Calendar</a>
     </section>
 
-    <footer>
-        <p>Seeking your love and blessings,</p>
-        <p><strong>Somya & Prabhat Gupta</strong></p>
-    </footer>
-
 <script>
-    // 1. Loader Logic
-    window.addEventListener("load", function() {
-        const loader = document.getElementById("loader-wrapper");
-        setTimeout(() => { loader.classList.add("loader-hidden"); }, 1500); 
-    });
-
-    // 2. Custom Cursor Logic
+    // 1. Loader & Cursor
+    window.addEventListener("load", () => setTimeout(() => document.getElementById("loader-wrapper").classList.add("loader-hidden"), 1500));
     const cursor = document.getElementById('custom-cursor');
-    document.addEventListener('mousemove', e => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
+    document.addEventListener('mousemove', e => { cursor.style.left = e.clientX + 'px'; cursor.style.top = e.clientY + 'px'; });
+
+    // 2. FEATURE: CLICK FOR PETAL BURST
+    document.addEventListener('click', (e) => {
+        for(let i=0; i<8; i++) {
+            setTimeout(() => {
+                const p = document.createElement('div');
+                p.innerHTML = '🌸'; p.className = 'petal';
+                p.style.left = e.clientX + (Math.random() * 60 - 30) + 'px';
+                p.style.top = e.clientY + 'px';
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 2500);
+            }, i * 50);
+        }
     });
 
-    // 3. Lightbox Logic
-    function openLightbox(src) {
-        document.getElementById('lightbox-img').src = src;
-        document.getElementById('lightbox').style.display = 'flex';
-    }
+    // 3. Doors & Lightbox
+    function openDoors(w) { document.getElementById('door-text').classList.add('text-hidden'); w.classList.add('open'); setTimeout(() => w.style.display = 'none', 1500); }
+    function openLightbox(s) { document.getElementById('lightbox-img').src = s; document.getElementById('lightbox').style.display = 'flex'; }
 
-    // 4. Virtual Door Logic
-    function openDoors(wrapper) {
-        const text = document.getElementById('door-text');
-        if(text) text.classList.add('text-hidden');
-        wrapper.classList.add('open');
-        setTimeout(() => { wrapper.style.display = 'none'; }, 1500);
-    }
-
-    // 5. Scroll Features Logic
+    // 4. Scroll Logic
     window.addEventListener('scroll', () => {
-        const theta = window.pageYOffset / 5;
-        document.getElementById('scroll-mandala').style.transform = `rotate(${theta}deg)`;
-        
-        const reveals = document.querySelectorAll('.reveal');
-        reveals.forEach(r => {
-            if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active');
-        });
-
-        const floats = document.querySelectorAll('.float-decoration');
-        floats.forEach(f => { if(window.pageYOffset > 200) f.classList.add('active'); });
+        document.getElementById('scroll-mandala').style.transform = `rotate(${window.pageYOffset / 5}deg)`;
+        document.querySelectorAll('.reveal').forEach(r => { if (r.getBoundingClientRect().top < window.innerHeight - 100) r.classList.add('active'); });
     });
 
-    // 6. Interaction Logic
-    function toggleMusic() {
-        var music = document.getElementById("bgMusic");
-        var btn = document.getElementById("musicToggle");
-        if (music.paused) { music.play(); btn.innerHTML = "⏸️"; } 
-        else { music.pause(); btn.innerHTML = "🎵"; }
+    function toggleMusic() { 
+        const m = document.getElementById("bgMusic");
+        m.paused ? (m.play(), document.getElementById("musicToggle").innerHTML = "⏸️") : (m.pause(), document.getElementById("musicToggle").innerHTML = "🎵"); 
     }
-
-    function createPetal() {
-        const petal = document.createElement('div');
-        petal.innerHTML = '🌸'; petal.className = 'petal';
-        petal.style.left = Math.random() * 100 + 'vw';
-        petal.style.animationDuration = Math.random() * 3 + 3 + 's';
-        petal.style.opacity = Math.random();
-        document.body.appendChild(petal);
-        setTimeout(() => petal.remove(), 6000);
-    }
-    setInterval(createPetal, 450);
 
     const eventDate = new Date("Feb 23, 2026 19:00:00").getTime();
-    setInterval(function() {
-        const now = new Date().getTime();
-        const distance = eventDate - now;
-        document.getElementById("days").innerHTML = Math.floor(distance / 86400000);
-        document.getElementById("hours").innerHTML = Math.floor((distance % 86400000) / 3600000);
-        document.getElementById("minutes").innerHTML = Math.floor((distance % 3600000) / 60000);
-        document.getElementById("seconds").innerHTML = Math.floor((distance % 60000) / 1000);
+    setInterval(() => {
+        const d = eventDate - new Date().getTime();
+        document.getElementById("days").innerHTML = Math.floor(d / 86400000);
+        document.getElementById("hours").innerHTML = Math.floor((d % 86400000) / 3600000);
+        document.getElementById("minutes").innerHTML = Math.floor((d % 3600000) / 60000);
+        document.getElementById("seconds").innerHTML = Math.floor((d % 60000) / 1000);
     }, 1000);
 
     document.getElementById('inviteForm').onsubmit = function(e) {
         e.preventDefault();
-        document.getElementById('thankYouPopup').style.display = 'block';
-        const name = document.getElementById('guestName').value;
-        const count = document.getElementById('guestCount').value;
-        const message = encodeURIComponent(`Namaste! I am ${name}. Confirming for Advait's Kua Pujan. Guests: ${count}.`);
-        setTimeout(() => { window.open(`https://wa.me/918839974860?text=${message}`, '_blank'); }, 1500);
+        const msg = encodeURIComponent(`Namaste! I am ${document.getElementById('guestName').value}. Confirming for Advait's Kua Pujan. Guests: ${document.getElementById('guestCount').value}.`);
+        window.open(`https://wa.me/918839974860?text=${msg}`, '_blank');
     }
-    function closePopup() { document.getElementById('thankYouPopup').style.display = 'none'; }
 </script>
 </body>
 </html>
