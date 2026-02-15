@@ -86,13 +86,11 @@
         .door-left { 
             background-position: left center; 
             border-right: 1px solid rgba(0,0,0,0.3);
-            /* Internal shadow at the seam */
             box-shadow: inset -15px 0 20px -10px rgba(0,0,0,0.6);
         }
         .door-right { 
             background-position: right center; 
             border-left: 1px solid rgba(255,255,255,0.1);
-            /* Internal shadow at the seam */
             box-shadow: inset 15px 0 20px -10px rgba(0,0,0,0.6);
         }
         #door-wrapper.open .door-left { transform: translateX(-100%); }
@@ -115,7 +113,7 @@
         }
         .divider-icon { font-size: 28px; margin: 0 15px; filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2)); }
 
-        /* --- FLOATING ELEMENTS --- */
+        /* --- UI ELEMENTS --- */
         .float-decoration { position: absolute; z-index: 5; opacity: 0; transition: all 1.5s ease; pointer-events: none; }
         .float-left { transform: translateX(-100px); left: 5%; }
         .float-right { transform: translateX(100px); right: 5%; }
@@ -126,7 +124,7 @@
         .reveal { opacity: 0; transform: translateY(30px); transition: all 1s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* --- SECTIONS --- */
+        /* --- HERO & CARDS --- */
         .hero {
             min-height: 95vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
             background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), 
@@ -234,10 +232,11 @@
     <section class="card reveal">
         <h2 style="font-family: 'Cinzel'; color: var(--wood);">The Venue</h2>
         <div class="iframe-container">
-            <iframe src="http://googleusercontent.com/maps.google.com/7" width="100%" height="100%" style="border:0; filter: sepia(20%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3507.03714856037!2d77.1711246761405!3d28.479901791039864!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d1f73801f7051%3A0x67341e9882297922!2sNij%20Niwas!5e0!3m2!1sen!2sin!4v1707994200000!5m2!1sen!2sin" 
+            width="100%" height="100%" style="border:0; filter: sepia(20%) contrast(90%);" allowfullscreen="" loading="lazy"></iframe>
         </div>
         <p>📍 Nij Niwas, Chhatarpur</p>
-        <a href="https://maps.google.com" target="_blank" class="btn">Navigate on Maps</a>
+        <a href="https://maps.app.goo.gl/PzS9A5S5e8D2m7wD9" target="_blank" class="btn">Navigate on Maps</a>
     </section>
 
     <section class="rsvp-section reveal" id="rsvpForm">
